@@ -26,7 +26,7 @@
     var autoScroll = function () {
       // autoscroll
       if ($(':input[name="autoscroll"]').is(':checked')) {
-        $stdout.animate({ scrollTop: $stdout.get(0).scrollHeight }, 1000);
+        $stdout.scrollTop($stdout.get(0).scrollHeight);
       }
     }
 
@@ -96,6 +96,12 @@
         if (typeof value === 'object')  value = JSON.stringify(value, undefined, 2);
         $monitoring.append('<strong>' + key + '</strong>: ' + value + '<br>');
       });
+    });
+
+    // clear stdout
+    $('#stdout-clear').click(function () {
+      $stdout.empty();
+      return false;
     });
   });
 
