@@ -61,11 +61,13 @@
     // format post data
     $form.find(':input[name="data"]').change(function () {
       var val = $(this).val();
-      var parsed, formData;
+      var parsed, formData = [];
 
+      /**
+       * Parse form boudaries webkit
+       */
       if (val.match(/------/)) {
         parsed = val.split(/------/);
-        formData = [];
         if (parsed && parsed.length > 0) {
           for (var _i=0; _i<parsed.length; _i++) {
             parsed[_i] = parsed[_i].trim();
@@ -83,10 +85,22 @@
           }
         }
         $(this).val(formData.join('&'));
+      } else {
+        /**
+         * Parse normal webkit form
+         */
+        parsed = val.split(/\n/);
+        $.each(parsed, function (key, item) {
+          var parsedItem = item.split(':');
+          formData.push(parsedItem[0] + '=' + parsedItem[1]);
+        });
+        if (formData.length > 0) {
+          $(this).val(formData.join('&'));
+        }
       }
 
-      console.log(parsed);
-      console.log(formData.join('&'));
+      // console.log(parsed);
+      // console.log(formData.join('&'));
     });
 
     // monitoring
