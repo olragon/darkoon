@@ -1,5 +1,7 @@
 var shelljs = require('shelljs');
 
-shelljs.exec('sqlmap --version', {async: true, silent: true}, function (err, res) {
+var sqlmapCmd = 'vendor/sqlmap/sqlmap.py';
+
+shelljs.exec(sqlmapCmd + ' --version', {async: true, silent: true}, function (err, res) {
   console.log(res);
 });
