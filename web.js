@@ -3,7 +3,8 @@ var express = require('express')
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
   , spawn = require('child_process').spawn
-  , fs = require('fs');
+  , fs = require('fs')
+  , os = require('os');
 
 
 // sqlmap symlink
@@ -12,6 +13,22 @@ if (fs.existsSync(sqlmapPath)) {
   fs.symlinkSync(__dirname + '/vendor/sqlmap/sqlmap.py', __dirname + '/node_modules/.bin/sqlmap');
 } else {
   console.error('sqlmap not found!');
+}
+
+/**
+ * Monitoring
+ */
+function getSystemInfo() {
+  var osMethods = Object.keys(os);
+  var monitor = {};
+  for (var _i=0; _i<osMethods.length; _i++) {
+    if (typeof os[osMethods[_i]] == 'function') {
+      monitor[osMethods[_i]] = os[osMethods[_i]]();
+    } else {
+      monitor[osMethods[_i]] = os[osMethods[_i]];
+    }
+  }
+  return monitor;
 }
 
 var childsProcess = {};
@@ -25,6 +42,7 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
+
   socket.on('echo', function (data) {
     console.log(data);
     socket.emit('response', data);
@@ -63,6 +81,11 @@ io.sockets.on('connection', function (socket) {
       delete childsProcess[socket.id];
     }
   });
+
+  setInterval(function () {
+    socket.emit('monitoring', getSystemInfo());
+  }, 10000);
+
 });
 
 function parseCommand(command) {

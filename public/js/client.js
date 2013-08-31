@@ -4,7 +4,8 @@
 
   $(document).ready(function () {
     var $form = $('form#sqlmap')
-    ,   $stdout = $('#stdout pre');
+    ,   $stdout = $('#stdout pre')
+    ,   $monitoring = $('#monitoring');
 
     /**
      * Auto calculate output height
@@ -23,7 +24,10 @@
      * Scroll
      */
     var autoScroll = function () {
-      $stdout.animate({ scrollTop: $stdout.get(0).scrollHeight }, 1000);
+      // autoscroll
+      if ($(':input[name="autoscroll"]').is(':checked')) {
+        $stdout.animate({ scrollTop: $stdout.get(0).scrollHeight }, 1000);
+      }
     }
 
     // console.log($('#stdout').offset().top);
@@ -83,6 +87,15 @@
 
       console.log(parsed);
       console.log(formData.join('&'));
+    });
+
+    // monitoring
+    socket.on('monitoring', function (data) {
+      $monitoring.empty();
+      $.each(data, function (key, value) {
+        if (typeof value === 'object')  value = JSON.stringify(value, undefined, 2);
+        $monitoring.append('<strong>' + key + '</strong>: ' + value + '<br>');
+      });
     });
   });
 

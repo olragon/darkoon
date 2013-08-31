@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 <link href="/css/client.css" rel="stylesheet">
 <script src="/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
@@ -14,6 +15,19 @@
   <div class="container">
     <div class="page-title">
       <h1>Darkoon - Attack</h1>
+      <a data-toggle="modal" href="#monitoring_wrapper" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-hdd"></i> System</a>
+      <!-- Modal -->
+      <div class="modal fade" id="monitoring_wrapper" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">System monitoring</h4>
+            </div>
+            <div class="modal-body" id="monitoring">Loading ...</div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
     </div>
     <div class="row">
       <div class="col-lg-6">
@@ -45,6 +59,9 @@
       </div>
       <div class="col-lg-6">
         <h4>Output</h4>
+        <div class="checkbox">
+          <label><input type="checkbox" name="autoscroll" checked> Autoscroll</label>
+        </div>
         <hr>
         <div id="stdout">
           <pre></pre>
