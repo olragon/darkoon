@@ -2,6 +2,9 @@
   "name": "darkoon",
   "version": "0.0.1",
   "dependencies": {
-    "shelljs": "~0.2.1"
+    "shelljs": "~0.2.1",
+    "rbytes": "~1.0.0",
+    "express": "~3.3.7",
+    "socket.io": "~0.9.16"
   }
 }

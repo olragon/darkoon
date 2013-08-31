@@ -1,0 +1,8 @@
+#stdin {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+}
+#stdout {
+  overflow: hidden;
+}
