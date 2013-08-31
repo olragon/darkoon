@@ -59,7 +59,7 @@ io.sockets.on('connection', function (socket) {
     console.log('[web.js] user ' + socket.id + ' disconnect');
     if (childsProcess[socket.id]) {
       console.log('[web.js] kill runnung command');
-      childsProcess[socket.id].kill(1);
+      childsProcess[socket.id].kill();
       delete childsProcess[socket.id];
     }
   });

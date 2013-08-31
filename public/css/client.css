@@ -3,6 +3,6 @@
   left: 0;
   position: absolute;
 }
-#stdout {
-  overflow: hidden;
+#stdout pre {
+  overflow-y:scroll;
 }
