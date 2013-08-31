@@ -14,6 +14,8 @@ if (fs.existsSync(sqlmapPath)) {
   console.error('sqlmap not found!');
 }
 
+var childsProcess = {};
+
 app.use(express.static('./public'));
 
 server.listen(process.env.PORT || 9999);
@@ -23,13 +25,18 @@ app.get('/', function (req, res) {
 });
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
+  socket.on('echo', function (data) {
     console.log(data);
+    socket.emit('response', data);
   });
+
   socket.on('command', function (data) {
+    console.log('[web.js] receive command', data);
     var cmdParsed = parseCommand(data.command);
+    console.log('[web.js] parsed command', cmdParsed);
     var cmd = spawn(cmdParsed.cmd, cmdParsed.args);
+    childsProcess[socket.id] = cmd;
+
     cmd.stdout.setEncoding('utf8');
     cmd.stdout.on('data', function (data) {
       socket.emit('command_stdout', data);
@@ -40,7 +47,21 @@ io.sockets.on('connection', function (socket) {
     });
     cmd.on('close', function (code) {
       socket.emit('command_stdout', code);
+      delete childsProcess[socket.id];
     });
+  });
+
+  /**
+   * Socket disconnect, kill all process
+   * @return {[type]} [description]
+   */
+  socket.on('disconnect', function () {
+    console.log('[web.js] user ' + socket.id + ' disconnect');
+    if (childsProcess[socket.id]) {
+      console.log('[web.js] kill runnung command');
+      childsProcess[socket.id].kill(1);
+      delete childsProcess[socket.id];
+    }
   });
 });
 

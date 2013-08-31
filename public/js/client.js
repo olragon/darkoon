@@ -4,7 +4,7 @@
 
   $(document).ready(function () {
     var $form = $('form#sqlmap')
-    ,   $stdout = $('#stdout');
+    ,   $stdout = $('#stdout pre');
 
     $form.submit(function(e) {
       var cmd = ['sqlmap'];
@@ -12,7 +12,7 @@
 
       jQuery.each(data, function (name, value) {
         if (name != '_options') {
-          cmd.push(name + '=' + value);
+          cmd.push('--' + name + '=' + value);
         } else {
           cmd.push(value);
         }
@@ -20,10 +20,10 @@
 
       socket.emit('command', {command: cmd.join(' ')});
       socket.on('command_stdout', function (data) {
-        $stdout.append('<pre>stdout: ' + data + '</pre><br>');
+        $stdout.append('stdout: ' + data);
       });
       socket.on('command_stderr', function (data) {
-        $stdout.append('<pre>stderr: ' + data + '</pre><br>');
+        $stdout.append('stderr: ' + data);
       });
 
       return false;
