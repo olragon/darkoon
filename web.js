@@ -2,8 +2,17 @@ var express = require('express')
   , app = express()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
-  , spawn = require('child_process').spawn;
+  , spawn = require('child_process').spawn
+  , fs = require('fs');
 
+
+// sqlmap symlink
+var sqlmapPath = __dirname + '/vendor/sqlmap/sqlmap.py';
+if (fs.existsSync(sqlmapPath)) {
+  fs.symlinkSync(__dirname + '/vendor/sqlmap/sqlmap.py', __dirname + '/node_modules/.bin/sqlmap');
+} else {
+  console.error('sqlmap not found!');
+}
 
 app.use(express.static('./public'));
 

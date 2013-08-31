@@ -1,34 +1,33 @@
 (function ($) {
   // socket.io
   var socket = io.connect(window.location.hostname);
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
 
   $(document).ready(function () {
-    var $stdin = $('#stdin')
-    ,   $stdout = $('#stdout')
-    ,   $form = $stdin.parent('form');
+    var $form = $('form#sqlmap')
+    ,   $stdout = $('#stdout');
 
-    $stdin.bind('keypress', function (e) {
-      if (e.which == 13) {
-        $form.submit();
-      }
-    });
+    $form.submit(function(e) {
+      var cmd = ['sqlmap'];
+      var data = $form.serializeJSON();
 
-    $form.on('submit', function (e) {
-      e.preventDefault();
-      socket.emit('command', {command: $stdin.val()});
+      jQuery.each(data, function (name, value) {
+        if (name != '_options') {
+          cmd.push(name + '=' + value);
+        } else {
+          cmd.push(value);
+        }
+      });
+
+      socket.emit('command', {command: cmd.join(' ')});
       socket.on('command_stdout', function (data) {
         $stdout.append('<pre>stdout: ' + data + '</pre><br>');
-        $stdin.val('');
       });
       socket.on('command_stderr', function (data) {
         $stdout.append('<pre>stderr: ' + data + '</pre><br>');
-        $stdin.val('');
       });
+
+      return false;
     });
-  })
+  });
 
 }(jQuery));
