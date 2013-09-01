@@ -11,8 +11,11 @@
 
     socket.on('connect', function () {
       $btnRun.removeAttr('disabled');
-      socket.on('disconnect', fucntion(){
+      socket.on('disconnect', function() {
         $btnRun.attr('disabled', true);
+      });
+      socket.on('reconnect', function () {
+        $btnRun.removeAttr('disabled');
       });
     });
 
@@ -128,13 +131,17 @@
     });
 
     $btnStop.click(function () {
-      socket.emit('disconnect');
+      socket.disconnect();
       $btnRun.removeAttr('disabled');
+      $(this).attr('disabled', true);
+      return false;
     });
 
     $btnRun.click(function () {
       $(this).attr('disabled', true);
       $btnStop.removeAttr('disabled');
+      $form.submit();
+      return false;
     });
   });
 
