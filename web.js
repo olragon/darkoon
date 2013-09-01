@@ -11,6 +11,10 @@ var express = require('express')
 var sqlmapPath = __dirname + '/vendor/sqlmap/sqlmap.py';
 if (fs.existsSync(sqlmapPath)) {
   fs.symlinkSync(__dirname + '/vendor/sqlmap/sqlmap.py', __dirname + '/node_modules/.bin/sqlmap');
+  // public sqlmap output dir
+  if (!fs.existsSync(__dirname + '/public/output')) {
+    fs.symlinkSync(__dirname + '/vendor/sqlmap/output', __dirname + '/public/output');
+  }
 } else {
   console.error('sqlmap not found!');
 }
@@ -33,7 +37,11 @@ function getSystemInfo() {
 
 var childsProcess = {};
 
-app.use(express.static('./public'));
+app.configure(function () {
+  app.use(express.static(__dirname + '/public'));
+  app.use(express.directory(__dirname + '/public'));
+  app.use(express.errorHandler());
+});
 
 server.listen(process.env.PORT || 9999);
 

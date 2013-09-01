@@ -113,7 +113,7 @@
     });
 
     // clear stdout
-    $('#stdout-clear').click(function () {
+    $('#clear-stdout').click(function () {
       $stdout.empty();
       return false;
     });
