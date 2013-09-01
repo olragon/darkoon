@@ -10,7 +10,7 @@
     ,   $btnRun = $('#run-scan').attr('disabled', true);
 
     socket.on('connect', function () {
-      $btnRun.removeAttr('disabled');
+      $btnRun.removeAttr('disabled').text('Run');
       socket.on('disconnect', function() {
         $btnRun.attr('disabled', true);
       });
