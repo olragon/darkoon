@@ -34,27 +34,26 @@
         <h4>Target</h4>
         <hr>
         <form role="form" id="sqlmap">
-          <div class="control-group">
+          <div class="form-group">
             <label for="url">Target</label>
             <textarea name="url" id="url" class="form-control" required></textarea>
           </div>
           <div class="row">
-            <div class="control-group col-lg-6">
+            <div class="form-group col-lg-6">
               <label for="data">Data</label>
               <textarea name="data" id="data" class="form-control"></textarea>
             </div>
-            <div class="control-group col-lg-6">
+            <div class="form-group col-lg-6">
               <label for="cookie">Cookie</label>
               <textarea name="cookie" id="cookie" class="form-control"></textarea>
             </div>
           </div>
-          <div class="control-group">
+          <div class="form-group">
             <label for="_options">Options</label>
             <textarea name="_options" id="_options" class="form-control" required>--random-agent --batch</textarea>
           </div>
-          <div class="control-group">
-            <button class="btn btn-primary">Run</button>
-          </div>
+          <button class="btn btn-primary" id="run-scan">Run</button>
+          <button class="btn btn-warning" id="stop-scan">Stop & Clear</button>
         </form>
       </div>
       <div class="col-lg-6">

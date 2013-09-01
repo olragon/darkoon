@@ -5,7 +5,16 @@
   $(document).ready(function () {
     var $form = $('form#sqlmap')
     ,   $stdout = $('#stdout pre')
-    ,   $monitoring = $('#monitoring');
+    ,   $monitoring = $('#monitoring')
+    ,   $btnStop = $('#stop-scan').attr('disabled', true)
+    ,   $btnRun = $('#run-scan').attr('disabled', true);
+
+    socket.on('connect', function () {
+      $btnRun.removeAttr('disabled');
+      socket.on('disconnect', fucntion(){
+        $btnRun.attr('disabled', true);
+      });
+    });
 
     /**
      * Auto calculate output height
@@ -116,6 +125,16 @@
     $('#clear-stdout').click(function () {
       $stdout.empty();
       return false;
+    });
+
+    $btnStop.click(function () {
+      socket.emit('disconnect');
+      $btnRun.removeAttr('disabled');
+    });
+
+    $btnRun.click(function () {
+      $(this).attr('disabled', true);
+      $btnStop.removeAttr('disabled');
     });
   });
 
