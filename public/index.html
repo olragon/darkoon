@@ -14,7 +14,7 @@
 </head><body lang="en">
   <div class="container">
     <div class="page-title">
-      <h1>Darkoon - Attack</h1>
+      <h1>Darkoon <small>olragon [at] gmail [dot] com</small></h1>
       <a data-toggle="modal" href="#monitoring_wrapper" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-hdd"></i> System</a>
       <!-- Modal -->
       <div class="modal fade" id="monitoring_wrapper" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -37,24 +37,38 @@
           <div class="form-group">
             <label for="url">Target</label>
             <textarea name="url" id="url" class="form-control" required></textarea>
+            <span class="help-block">Vulnerable URL <code>http://example.ltd/vul.php?abcd=xyz</code></span>
           </div>
           <div class="row">
             <div class="form-group col-lg-6">
               <label for="data">Data</label>
               <textarea name="data" id="data" class="form-control"></textarea>
+              <span class="help-block">Form data will be used in POST request <code>username=darkoon&password=123456</code></span>
             </div>
             <div class="form-group col-lg-6">
               <label for="cookie">Cookie</label>
               <textarea name="cookie" id="cookie" class="form-control"></textarea>
+              <span class="help-block">Cookie will be used <code>sid=2Fo5woOAGgRPuMw3GUBjdbIoenZ8z5V4BZF3B2Vq8</code>.</span>
             </div>
           </div>
           <div class="form-group">
             <label for="_options">Options</label>
             <textarea name="_options" id="_options" class="form-control" required>--random-agent --batch</textarea>
+            <span class="help-block">View more at <a href="https://github.com/sqlmapproject/sqlmap/wiki/Usage">https://github.com/sqlmapproject/sqlmap/wiki/Usage</a></span>
           </div>
           <button class="btn btn-primary" id="run-scan">Run (waiting for connection ...)</button>
           <button class="btn btn-warning" id="stop-scan">Stop & Clear</button>
         </form>
+        <hr>
+        <div class="well">
+          <h3>About Darkoon</h3>
+          <p class="text-muted">
+            Realtime web app for SQL Injection detector and data takeover build with sqlmap, node.js, socket.io, Bootstrap 3, Heroku<br>
+            <a href="http://sqlmap.org/">sqlmap project</a><br>
+            <a href="https://github.com/sqlmapproject/sqlmap/wiki/">sqlmap wiki</a><br>
+            <a href="http://cun.vn">My blog</a>
+          </p>
+        </div>
       </div>
       <div class="col-lg-6">
         <h4>Output <small><a href="#" class="btn btn-default btn-sm" id="clear-stdout"><i class="glyphicon glyphicon-trash"></i> Clear</a></small></h4>
